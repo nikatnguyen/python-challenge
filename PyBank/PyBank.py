@@ -10,6 +10,8 @@ outputpath = "Analysis/pybankanalysis.txt"
 #Set value for total months and total dollar amount
 monthtally = 0
 nettotal = 0
+prev = 0
+changes = []
 
 
 #if there r n months then there r n-1 changes
@@ -25,8 +27,21 @@ with open(bankdata) as bank_data:
         monthtally += 1
     
     #Calculating net total
-    for row in csvreader:
-        nettotal = nettotal + row[1]
+    # for row in csvreader:
+        nettotal = nettotal + int(Words[1])
+        change = int(Words[1]) - prev 
+
+        prev = int(Words[1])
+
+        changes.append(change)
+#remove item using index --> not in for loop
+del changes[1]
+
+avgchange = sum(changes)/len(changes)
+
+
+
+        
 
     
 
@@ -43,17 +58,17 @@ with open(outputpath, "w") as textfile:
     textfile.write(output)
 
     #Net total print
-    #output = (
-       # f"-------------------------\n"
-        #f"Net Total: {nettotal}\n"
-       # f"-------------------------\n")
-   # print(output, end="")
-    #textfile.write(output)
+    output = (
+        f"-------------------------\n"
+        f"Net Total: {nettotal}\n"
+       f"-------------------------\n")
+    print(output, end="")
+    textfile.write(output)
 
     #Avg change
     output = (
         f"-------------------------\n"
-       # f"Average change: {[1].max()}\n"
+        f"Average change: {avgchange}\n"
         f"-------------------------\n")
     print(output, end="")
     textfile.write(output)
@@ -61,7 +76,7 @@ with open(outputpath, "w") as textfile:
     #Increase
     output = (
         f"-------------------------\n"
-        f"Greatest Increase in Profit: {csvreader[1].max()}\n"
+        f"Greatest Increase in Profit: {max(changes)}\n"
         f"-------------------------\n")
     print(output, end="")
     textfile.write(output)
@@ -69,9 +84,9 @@ with open(outputpath, "w") as textfile:
     #Decrease
     output = (
         f"-------------------------\n"
-        f"Greatest Decrease in Profit: {csvreader[1].min()}\n"
+        f"Greatest Decrease in Profit: {min(changes)}\n"
         f"-------------------------\n")
     print(output, end="")
     textfile.write(output)
 
-#I can't figure out how to find the net total or just figure out how to write that I want column1 and find the sum, avg., min/max
+#avg is different from result on module hw?
